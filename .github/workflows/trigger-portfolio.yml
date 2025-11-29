@@ -1,0 +1,19 @@
+name: Trigger Portfolio Build
+
+on:
+  push:
+    branches: ["main"]
+
+jobs:
+  trigger:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Trigger Portfolio Deployment
+        uses: peter-evans/repository-dispatch@v3
+        with:
+          # Your Portfolio Repo name (e.g., 'username/my-portfolio')
+          repository: rahulr-dev/rahulr-dev.github.io
+          # The token (set up as a secret in THIS repo's settings for security)
+          token: ${{ secrets.REPO_DISPATCH_TOKEN }}
+          event-type: content-update-ready
+          client-payload: '{"git_sha": "${{ github.sha }}"}'
